@@ -168,45 +168,45 @@ dev.off()
 bp.HR.com.act["Subject"] <- (apply(bp.HR.com.act, 1, parsesubject, 2))
 
 # Subject HCR001 
-HCR001_set <- subset(bp.HR.com.act, Subject=="HCR001")
-HCR001_set["Subject"] <- NULL
+HCR001.set <- subset(bp.HR.com.act, Subject=="HCR001")
+HCR001.set["Subject"] <- NULL
 postscript("HCR001_Variance.eps",  width = 480, height = 480)
-PlotR2s(HCR001_set[, 5:dim(HCR001_set)[2]], "Variance Explained in HCR001", TRUE)
+PlotR2s(HCR001.set[, 5:dim(HCR001.set)[2]], "Variance Explained in HCR001", TRUE)
 dev.off()
 
 # HCR003
-HCR003_set <- subset(bp.HR.com.act, Subject=="HCR003")
-HCR003_set["Subject"] <- NULL
+HCR003.set <- subset(bp.HR.com.act, Subject=="HCR003")
+HCR003.set["Subject"] <- NULL
 postscript("HCR003_Variance.eps",  width = 480, height = 480)
-PlotR2s(HCR003_set[, 5:dim(HCR003_set)[2]], "Variance Explained in HCR003", TRUE)
+PlotR2s(HCR003.set[, 5:dim(HCR003.set)[2]], "Variance Explained in HCR003", TRUE)
 dev.off()
 
 
-HCR004_set <- subset(bp.HR.com.act, Subject=="HCR004")
-HCR004_set["Subject"] <- NULL
+HCR004.set <- subset(bp.HR.com.act, Subject=="HCR004")
+HCR004.set["Subject"] <- NULL
 postscript("HCR004_Variance.eps",  width = 480, height = 480)
-PlotR2s(HCR004_set[, 5:dim(HCR004_set)[2]], "Variance Explained in HCR004", TRUE)
+PlotR2s(HCR004.set[, 5:dim(HCR004.set)[2]], "Variance Explained in HCR004", TRUE)
 dev.off()
 
 # HCR006
-HCR006_set <- subset(bp.HR.com.act, Subject=="HCR006")
-HCR006_set["Subject"] <- NULL
+HCR006.set <- subset(bp.HR.com.act, Subject=="HCR006")
+HCR006.set["Subject"] <- NULL
 postscript("HCR006_Variance.eps",  width = 480, height = 480)
-PlotR2s(HCR006_set[, 5:dim(HCR006_set)[2]], "Variance Explained in HCR006", TRUE)
+PlotR2s(HCR006.set[, 5:dim(HCR006.set)[2]], "Variance Explained in HCR006", TRUE)
 dev.off()
 
 # HCR008
-HCR008_set <- subset(bp.HR.com.act, Subject=="HCR008")
-HCR008_set["Subject"] <- NULL
+HCR008.set <- subset(bp.HR.com.act, Subject=="HCR008")
+HCR008.set["Subject"] <- NULL
 postscript("HCR008_Variance.eps",  width = 480, height = 480)
-PlotR2s(HCR008_set[, 5:dim(HCR008_set)[2]], "Variance Explained in HCR008", TRUE)
+PlotR2s(HCR008.set[, 5:dim(HCR008.set)[2]], "Variance Explained in HCR008", TRUE)
 dev.off()
 
 # HCR009
-HCR009_set <- subset(bp.HR.com.act, Subject=="HCR009")
-HCR009_set["Subject"] <- NULL
+HCR009.set <- subset(bp.HR.com.act, Subject=="HCR009")
+HCR009.set["Subject"] <- NULL
 postscript("HCR009_Variance.eps",  width = 480, height = 480)
-PlotR2s(HCR009_set[, 5:dim(HCR009_set)[2]], "Variance Explained in HCR009", TRUE)
+PlotR2s(HCR009.set[, 5:dim(HCR009.set)[2]], "Variance Explained in HCR009", TRUE)
 dev.off()
 
 ################################
@@ -220,36 +220,36 @@ TimeSubj <- data.frame(communication.activity$TimeSubjectIndex)
 subj <- data.frame(communication.activity$subject)
 length <- as.numeric(dim(communication.activity)[2])
 Matrix_For_PCA <- communication.activity[,3:(length-1)]
-Act_Com_PCA <- prcomp(Matrix_For_PCA, scale.=TRUE)
-ActCom_PCA_Matrix <- data.frame(Act_Com_PCA$x)
+act.com.PCA <- prcomp(Matrix_For_PCA, scale.=TRUE)
+act.com.PCA.matrix <- data.frame(act.com.PCA$x)
 
-ActCom_PCA_Matrix["Subject"] <- subj
-write.table(Act_Com_PCA$rotation, "Act_Com_Loadings.csv", sep=",")
+act.com.PCA.matrix["Subject"] <- subj
+write.table(act.com.PCA$rotation, "Act_Com_Loadings.csv", sep=",")
 
 
-ActCom_PCA_Matrix["TimeSubjectIndex"] <- TimeSubj
+act.com.PCA.matrix["TimeSubjectIndex"] <- TimeSubj
   
-ActCom_PCA_Matrix["TimesOnly"] <- apply(ActCom_PCA_Matrix, 1, parsesubject, 1)
+act.com.PCA.matrix["TimesOnly"] <- apply(act.com.PCA.matrix, 1, parsesubject, 1)
 
-windowed_ActCom_PCA <- subset(ActCom_PCA_Matrix, TimesOnly %in% TimeList)
+windowed_ActCom_PCA <- subset(act.com.PCA.matrix, TimesOnly %in% TimeList)
 
 ###########
 # PCA Plots
 ###########
 colorblind_Palette <- c("#000000", "#0072B2", "#56B4E9", "#F0E442", "#D55E00", "#CC79A7")
 
-postscript("Act_Com_PCAPlotAll.eps", width=480, height=480)
-p1 <- qplot(x=PC2, y=PC3, data=ActCom_PCA_Matrix, colour=Subject) + 
+postscript("act.com.PCA.PlotAll.eps", width=480, height=480)
+p1 <- qplot(x=PC2, y=PC3, data=act.com.PCA.matrix, colour=Subject) + 
             scale_colour_manual(values=colorblind_Palette)
-p2 <- qplot(x=PC1, y=PC3, data=ActCom_PCA_Matrix, colour=Subject) + 
+p2 <- qplot(x=PC1, y=PC3, data=act.com.PCA.matrix, colour=Subject) + 
             scale_colour_manual(values=colorblind_Palette)
-p3 <- qplot(x=PC1, y=PC2, data=ActCom_PCA_Matrix, colour=Subject) + 
+p3 <- qplot(x=PC1, y=PC2, data=act.com.PCA.matrix, colour=Subject) + 
             scale_colour_manual(values=colorblind_Palette)
 grid.arrange(p1, p2, p3, ncol=3, 
              top="Principal Components for Combined Activity and Communication (All Measurements)")
 dev.off()
 
-postscript("Act_Com_PCAPlot_48.eps")
+postscript("act.com.PCAPlot_48.eps")
 p_1 <- qplot(x=PC2, y=PC3, data=windowed_ActCom_PCA, colour=Subject) +
              scale_colour_manual(values=colorblind_Palette) 
 p_2 <- qplot(x=PC1, y=PC3, data=windowed_ActCom_PCA, colour=Subject) +
@@ -327,3 +327,4 @@ n3 <- qplot(x=Carbohydrate, y=TotalFat, data=Macronutrients, colour=Subject) + s
 grid.arrange(n1, n2, n3, ncol=3, top="Macronutrients(Visits 1 and 2)")
 dev.off()
 
+`
